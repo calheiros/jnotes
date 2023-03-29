@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/database/note_model.dart';
-import 'view/notes_grid_view.dart';
+import 'package:jnotes/database/note_model.dart';
+import 'widget/notes_grid_view.dart';
 import 'screen/notes_editor_screen.dart';
 
 void main() {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter app',
+      title: 'Jnotes',
       theme: ThemeData(
           pageTransitionsTheme: const PageTransitionsTheme(builders: {
             TargetPlatform.android: CupertinoPageTransitionsBuilder(),
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           brightness: Brightness.dark,
           colorScheme: const ColorScheme.dark(
-              primary: Color.fromARGB(248, 127, 15, 192))),
+              primary: Color.fromARGB(255, 0, 168, 180))),
       home: const MyHomePage(title: 'Notes'),
     );
   }
@@ -37,22 +37,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late NotesGridView gridView;
+  GlobalKey<NotesGridViewState> gridKey = GlobalKey<NotesGridViewState>();
 
-  @override
-  void initState() {
-    super.initState();
-    gridView = const NotesGridView();
-  }
-
-  void createNewNote() {
-    setState(() {
-      NoteModel note = NoteModel(title: "New note", content: "");
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => NotesEditorScreen(note)),
-      );
-    });
+  void createNewNote() async {
+    NoteModel note = NoteModel(title: "New note", content: "");
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => NotesEditorScreen(note)),
+    );
+    if (result != null) {
+      gridKey.currentState?.addNote(result);
+    }
   }
 
   @override
@@ -61,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: gridView,
+      body: NotesGridView(key: gridKey),
       floatingActionButton: FloatingActionButton(
         foregroundColor: Colors.white,
         onPressed: createNewNote,

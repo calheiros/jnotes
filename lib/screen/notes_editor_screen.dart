@@ -1,45 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/database/note_model.dart';
-import 'package:flutter_application/database/notes_database.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:jnotes/database/note_model.dart';
+import 'package:jnotes/database/notes_database.dart';
+import 'package:jnotes/utils/utils.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NotesEditorScreen extends StatefulWidget {
   final NoteModel note;
   const NotesEditorScreen(this.note, {super.key});
 
   @override
-  NotesEditorState createState() => NotesEditorState(note: note);
+  State createState() => _NotesEditorState();
 }
 
-class NotesEditorState extends State<NotesEditorScreen> {
+class _NotesEditorState extends State<NotesEditorScreen> {
   late TextEditingController _textEditingController;
-  final NoteModel note;
-  NotesEditorState({required this.note});
+  late TextEditingController _titleEditingController;
+  late NoteModel _note;
 
   @override
   void initState() {
     super.initState();
-    Fluttertoast.showToast(msg: "id: ${note.id}");
-    _textEditingController = TextEditingController(text: note.content);
+    _note = widget.note;
+    _textEditingController = TextEditingController(text: _note.content);
+    _titleEditingController = TextEditingController(text: _note.title);
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          if (_textEditingController.text != note.content) {
+          if (_textEditingController.text != _note.content ||
+              _titleEditingController.text != _note.title) {
             _showConfirmationDialog(context);
             return false;
-          } else {
-            return true;
           }
+          return true;
         },
         child: Scaffold(
             appBar: AppBar(
-              title: const Text('New note'),
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      _shareNote();
+                    },
+                    child: const Icon(
+                      Icons.share_rounded,
+                      size: 24,
+                    ),
+                  ),
+                )
+              ],
             ),
             body: Column(
               children: [
+                Padding(
+                    padding: const EdgeInsets.only(right: 14, left: 14),
+                    child: TextField(
+                      style: const TextStyle(fontSize: 20),
+                      controller: _titleEditingController,
+                      decoration: const InputDecoration(
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          hintText: "Title"),
+                    )),
                 Expanded(
                   child: TextField(
                     controller: _textEditingController,
@@ -59,6 +84,7 @@ class NotesEditorState extends State<NotesEditorScreen> {
   }
 
   void _showConfirmationDialog(context) async {
+    NoteModel? newNote;
     final result = await showDialog<bool>(
         context: context,
         builder: (_) {
@@ -69,27 +95,36 @@ class NotesEditorState extends State<NotesEditorScreen> {
                   onPressed: () => Navigator.of(context).pop(true),
                   child: const Text("No")),
               TextButton(
-                  onPressed: () => saveNote(context), child: const Text("Yes"))
+                  onPressed: () async => newNote = await _saveNote(context),
+                  child: const Text("Yes"))
             ],
           );
         });
 
     if (result == true) {
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(newNote);
     }
   }
 
-  void saveNote(context) async {
+  void _shareNote() async {
+    final filePath = await Utils.saveNoteToFile(_note);
+    if (filePath != null) {
+      Share.shareXFiles([XFile(filePath.path)], subject: 'Check out my note!');
+    }
+  }
+
+  Future<NoteModel> _saveNote(context) async {
     final db = NotesDbProvider();
     final String content = _textEditingController.text;
-    final newNote = NoteModel(id: note.id, title: note.title, content: content);
+    final String title = _titleEditingController.text;
+    final newNote = NoteModel(id: _note.id, title: title, content: content);
 
     int result = (newNote.id == -1)
-        ? await db.addNote(note)
+        ? await db.addNote(newNote)
         : await db.updateNote(newNote, newNote.id);
+    if (newNote.id == -1) newNote.id = result;
 
-    Fluttertoast.showToast(
-        msg: "notes saves result: $result", toastLength: Toast.LENGTH_SHORT);
-    return Navigator.of(context).pop(true);
+    Navigator.of(context).pop(true);
+    return newNote;
   }
 }

@@ -1,39 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/database/note_model.dart';
-import 'package:flutter_application/database/notes_database.dart';
+import 'package:jnotes/database/note_model.dart';
+import 'package:jnotes/database/notes_database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../screen/notes_editor_screen.dart';
 
 class NotesGridView extends StatefulWidget {
-  const NotesGridView({super.key});
+  const NotesGridView({Key? key}) : super(key: key);
+  static var notesGridKey = GlobalKey<NotesGridViewState>();
 
   @override
-  State<NotesGridView> createState() => _NotesGridViewState();
-  static var notesGridKey = GlobalKey<_NotesGridViewState>();
-
-  void removeNote(NoteModel noteModel) {
-    final state = notesGridKey.currentState;
-    if (state != null) {
-      state.removeNote(noteModel);
-    }
-  }
-
-  void addNote(NoteModel noteModel) {
-    final state = notesGridKey.currentState;
-    if (state != null) {
-      state.addNote(noteModel);
-    }
-  }
-
-  void updateNote(NoteModel noteModel) {
-    final state = notesGridKey.currentState;
-    if (state != null) {
-      state.updateNote(noteModel);
-    }
-  }
+  State<NotesGridView> createState() => NotesGridViewState();
 }
 
-class _NotesGridViewState extends State<NotesGridView> {
+class NotesGridViewState extends State<NotesGridView> {
   NotesDbProvider db = NotesDbProvider();
   List<NoteModel> items = [];
 
@@ -62,18 +41,20 @@ class _NotesGridViewState extends State<NotesGridView> {
     final notes = await db.fetchNotes();
     setState(() {
       items = notes;
-      Fluttertoast.showToast(msg: "notes size: ${items.length}");
     });
   }
 
   Widget buildItem(BuildContext context, int index) {
     return GestureDetector(
-        onTap: () {
-          Navigator.push(
+        onTap: () async {
+          final result = await Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => NotesEditorScreen(items[index])),
           );
+          if (result != null) {
+            updateNote(result);
+          }
         },
         onLongPress: () => deleteDialog(context, index),
         child: Card(
@@ -91,9 +72,21 @@ class _NotesGridViewState extends State<NotesGridView> {
     });
   }
 
-  void updateNote(NoteModel noteModel) {}
+  void updateNote(NoteModel noteModel) {
+    final index = items.indexWhere((element) => element.id == noteModel.id);
+    if (index != -1) {
+      setState(() {
+        items[index] = noteModel;
+      });
+    }
+  }
 
-  void addNote(NoteModel noteModel) {}
+  void addNote(NoteModel newNote) {
+    setState(() {
+      items.add(newNote);
+      Fluttertoast.showToast(msg: "added note: $newNote");
+    });
+  }
 
   Future<int> _deleteNote(context, index) async {
     final model = items[index];

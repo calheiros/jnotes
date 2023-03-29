@@ -11,4 +11,9 @@ class NoteModel {
       "content": content,
     };
   }
+
+  @override
+  String toString() {
+    return "$title\n\n$content";
+  }
 }

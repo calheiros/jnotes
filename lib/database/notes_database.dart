@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:flutter_application/database/note_model.dart';
+import 'package:jnotes/database/note_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -19,7 +18,7 @@ class NotesDbProvider {
 
   Future<int> addNote(NoteModel newNote) async {
     final db = await init();
-    return db.insert("Notes", newNote.toMap(),
+    return await db.insert("Notes", newNote.toMap(),
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
