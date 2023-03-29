@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jnotes/database/note_model.dart';
 import 'package:jnotes/database/notes_database.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../screen/notes_editor_screen.dart';
 
 class NotesGridView extends StatefulWidget {
@@ -28,8 +27,9 @@ class NotesGridViewState extends State<NotesGridView> {
         body: GridView.builder(
       itemCount: items.length,
       padding: const EdgeInsets.all(10.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200,
+        childAspectRatio: 1,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
@@ -109,7 +109,6 @@ class NotesGridViewState extends State<NotesGridView> {
   void addNote(NoteModel newNote) {
     setState(() {
       items.add(newNote);
-      Fluttertoast.showToast(msg: "added note: $newNote");
     });
   }
 

@@ -56,17 +56,19 @@ class _NotesEditorState extends State<NotesEditorScreen> {
             body: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(right: 14, left: 14),
+                    padding:
+                        const EdgeInsets.only(right: 10, left: 10, bottom: 6),
                     child: TextField(
                       style: const TextStyle(fontSize: 20),
                       controller: _titleEditingController,
                       decoration: const InputDecoration(
-                          fillColor: Colors.black,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
-                          hintText: "Title"),
+                          hintText: "Untitled"),
                     )),
                 Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 10, left: 10),
                   child: TextField(
                     controller: _textEditingController,
                     expands: true,
@@ -79,7 +81,7 @@ class _NotesEditorState extends State<NotesEditorScreen> {
                         hintText: "Your notes here",
                         filled: true),
                   ),
-                ),
+                )),
               ],
             )));
   }
