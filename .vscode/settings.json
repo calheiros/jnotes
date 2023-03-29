@@ -1,3 +1,4 @@
 {
-    "cmake.configureOnOpen": true
+    "cmake.enabled": false,
+    "cmake.configureOnOpen": false,
 }

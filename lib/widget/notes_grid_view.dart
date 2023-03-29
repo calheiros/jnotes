@@ -57,13 +57,38 @@ class NotesGridViewState extends State<NotesGridView> {
           }
         },
         onLongPress: () => deleteDialog(context, index),
-        child: Card(
-            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          ListTile(
-            title: Text(items[index].title),
-            subtitle: Text(items[index].content),
-          )
-        ])));
+        child: buildCard(index));
+  }
+
+  Widget buildCard(index) {
+    return Card(
+        child: Flexible(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+              padding: const EdgeInsets.only(
+                  right: 10, left: 10, bottom: 5, top: 10),
+              child: Text(
+                items[index].title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    fontSize: 16, decorationStyle: TextDecorationStyle.solid),
+              )),
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            child: Text(
+              items[index].content,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 14),
+            ),
+          )),
+        ],
+      ),
+    ));
   }
 
   void removeNote(NoteModel noteModel) {

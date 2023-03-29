@@ -61,6 +61,7 @@ class _NotesEditorState extends State<NotesEditorScreen> {
                       style: const TextStyle(fontSize: 20),
                       controller: _titleEditingController,
                       decoration: const InputDecoration(
+                          fillColor: Colors.black,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           hintText: "Title"),
