@@ -62,33 +62,32 @@ class NotesGridViewState extends State<NotesGridView> {
 
   Widget buildCard(index) {
     return Card(
-        child: Flexible(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
               padding: const EdgeInsets.only(
-                  right: 10, left: 10, bottom: 5, top: 10),
+                  right: 14, left: 14, bottom: 5, top: 10),
               child: Text(
                 items[index].title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                    fontSize: 16, decorationStyle: TextDecorationStyle.solid),
+                    fontSize: 18, decorationStyle: TextDecorationStyle.solid),
               )),
           Expanded(
               child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            padding: const EdgeInsets.only(left: 15, right: 14, bottom: 10),
             child: Text(
               items[index].content,
-              overflow: TextOverflow.ellipsis,
+              overflow: TextOverflow.fade,
               style: const TextStyle(fontSize: 14),
             ),
           )),
         ],
       ),
-    ));
+    );
   }
 
   void removeNote(NoteModel noteModel) {

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.calheiros.jnotes">
    <application
-        android:label="jnotes"
+        android:label="Jnotes"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

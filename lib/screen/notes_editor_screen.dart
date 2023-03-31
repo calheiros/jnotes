@@ -56,8 +56,7 @@ class _NotesEditorState extends State<NotesEditorScreen> {
             body: Column(
               children: [
                 Padding(
-                    padding:
-                        const EdgeInsets.only(right: 10, left: 10, bottom: 6),
+                    padding: const EdgeInsets.only(right: 15, left: 15),
                     child: TextField(
                       style: const TextStyle(fontSize: 20),
                       controller: _titleEditingController,
@@ -68,7 +67,7 @@ class _NotesEditorState extends State<NotesEditorScreen> {
                     )),
                 Expanded(
                     child: Padding(
-                  padding: const EdgeInsets.only(right: 10, left: 10),
+                  padding: const EdgeInsets.only(right: 5, left: 5),
                   child: TextField(
                     controller: _textEditingController,
                     expands: true,

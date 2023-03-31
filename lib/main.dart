@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   GlobalKey<NotesGridViewState> gridKey = GlobalKey<NotesGridViewState>();
 
   void createNewNote() async {
-    NoteModel note = NoteModel(title: "", content: "");
+    final note = NoteModel(title: "", content: "");
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => NotesEditorScreen(note)),
