@@ -8,15 +8,6 @@ This app features a simple and intuitive interface for creating, editing, and de
 
 I created this app as a learning project for myself, however if you're just starting out or looking to improve your skills, this app is a great resource for learning how to build a fully functional notepad app using Flutter.
 
-## Getting Started
+# Screenshots
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src='https://raw.githubusercontent.com/calheiros/jnotes/main/Screenshots/Captura%20de%20tela%20de%202023-04-11%2017-30-48.png'/><img src='https://raw.githubusercontent.com/calheiros/jnotes/main/Screenshots/Captura%20de%20tela%20de%202023-04-11%2017-32-49.png'/><img src='https://raw.githubusercontent.com/calheiros/jnotes/main/Screenshots/Captura%20de%20tela%20de%202023-04-11%2017-32-15.png'/><img src='https://raw.githubusercontent.com/calheiros/jnotes/main/Screenshots/Captura%20de%20tela%20de%202023-04-11%2017-32-32.png'/>
