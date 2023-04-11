@@ -1,4 +1,6 @@
 {
     "cmake.enabled": false,
     "cmake.configureOnOpen": false,
+    "java.jdt.ls.java.home": null,
+    "java.configuration.runtimes": []
 }

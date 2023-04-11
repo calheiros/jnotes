@@ -6,6 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'widget/notes_grid_view.dart';
 import 'screen/notes_editor_screen.dart';
+import 'theme.dart';
 
 void main() {
   if (Platform.isWindows || Platform.isLinux) {
@@ -24,15 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Jnotes',
-      theme: ThemeData(
-          pageTransitionsTheme: const PageTransitionsTheme(builders: {
-            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-            TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
-          }),
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          colorScheme: const ColorScheme.dark(
-              primary: Color.fromARGB(255, 0, 168, 180))),
+      theme: MyTheme.themeDark,
       home: const MyHomePage(title: 'Notes'),
     );
   }

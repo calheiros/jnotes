@@ -13,24 +13,26 @@ class NotesEditorScreen extends StatefulWidget {
 }
 
 class _NotesEditorState extends State<NotesEditorScreen> {
-  late TextEditingController _textEditingController;
-  late TextEditingController _titleEditingController;
+  late TextEditingController _textController;
+  late TextEditingController _titleController;
   late NoteModel _note;
+
+  final FocusNode _textFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _note = widget.note;
-    _textEditingController = TextEditingController(text: _note.content);
-    _titleEditingController = TextEditingController(text: _note.title);
+    _textController = TextEditingController(text: _note.content);
+    _titleController = TextEditingController(text: _note.title);
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          if (_textEditingController.text != _note.content ||
-              _titleEditingController.text != _note.title) {
+          if (_textController.text != _note.content ||
+              _titleController.text != _note.title) {
             _showConfirmationDialog(context);
             return false;
           }
@@ -56,33 +58,45 @@ class _NotesEditorState extends State<NotesEditorScreen> {
             body: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(right: 15, left: 15),
+                    padding: const EdgeInsets.all(5),
                     child: TextField(
-                      style: const TextStyle(fontSize: 20),
-                      controller: _titleEditingController,
-                      decoration: const InputDecoration(
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          hintText: "Untitled"),
-                    )),
+                        onSubmitted: (_) => _textFocusNode.requestFocus(),
+                        style: const TextStyle(fontSize: 18),
+                        controller: _titleController,
+                        decoration: decoration("Your title"))),
                 Expanded(
                     child: Padding(
-                  padding: const EdgeInsets.only(right: 5, left: 5),
+                  padding: const EdgeInsets.only(right: 5, left: 5, bottom: 5),
                   child: TextField(
-                    controller: _textEditingController,
-                    expands: true,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    minLines: null,
-                    decoration: const InputDecoration(
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintText: "Your notes here",
-                        filled: true),
-                  ),
+                      textAlignVertical: TextAlignVertical.top,
+                      focusNode: _textFocusNode,
+                      controller: _textController,
+                      expands: true,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      minLines: null,
+                      decoration: decoration("Your notes here")),
                 )),
               ],
             )));
+  }
+
+  InputDecoration decoration(hintMessage) {
+    return InputDecoration(
+      filled: true,
+      contentPadding: const EdgeInsets.all(15.0),
+      hintText: hintMessage,
+      fillColor: const Color.fromARGB(22, 255, 255, 255),
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(15.0),
+        ),
+        borderSide: BorderSide(
+          width: 0,
+          style: BorderStyle.none,
+        ),
+      ),
+    );
   }
 
   void _showConfirmationDialog(context) async {
@@ -117,8 +131,8 @@ class _NotesEditorState extends State<NotesEditorScreen> {
 
   Future<NoteModel> _saveNote(context) async {
     final db = NotesDbProvider();
-    final String content = _textEditingController.text;
-    final String title = _titleEditingController.text;
+    final String content = _textController.text;
+    final String title = _titleController.text;
     final newNote = NoteModel(id: _note.id, title: title, content: content);
 
     int result = (newNote.id == -1)
