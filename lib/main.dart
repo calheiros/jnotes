@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jnotes/database/note_model.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'widget/notes_grid_view.dart';
-import 'screen/notes_editor_screen.dart';
+import 'screen/screen_notes_editor.dart';
 import 'theme.dart';
 
 void main() {

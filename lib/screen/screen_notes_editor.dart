@@ -29,44 +29,42 @@ class _NotesEditorState extends State<NotesEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
+    return PopScope(
+        canPop: true,
+        onPopInvoked: (ps) {
           if (_textController.text != _note.content ||
               _titleController.text != _note.title) {
             _showConfirmationDialog(context);
-            return false;
+            return;
           }
-          return true;
+          return;
         },
         child: Scaffold(
             appBar: AppBar(
               actions: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: GestureDetector(
-                    onTap: () {
+                IconButton(
+                    onPressed: () {
                       _shareNote();
                     },
-                    child: const Icon(
+                    icon: const Icon(
                       Icons.share_rounded,
                       size: 24,
-                    ),
-                  ),
-                )
+                    )),
               ],
             ),
             body: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 5, left: 10, right: 10),
                     child: TextField(
                         onSubmitted: (_) => _textFocusNode.requestFocus(),
-                        style: const TextStyle(fontSize: 18),
                         controller: _titleController,
-                        decoration: decoration("Your title"))),
+                        decoration: _textFildDecoration("Give a title"))),
                 Expanded(
                     child: Padding(
-                  padding: const EdgeInsets.only(right: 5, left: 5, bottom: 5),
+                  padding:
+                      const EdgeInsets.only(right: 10, left: 10, bottom: 10),
                   child: TextField(
                       textAlignVertical: TextAlignVertical.top,
                       focusNode: _textFocusNode,
@@ -75,18 +73,18 @@ class _NotesEditorState extends State<NotesEditorScreen> {
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       minLines: null,
-                      decoration: decoration("Your notes here")),
+                      decoration: _textFildDecoration("Start writing here...")),
                 )),
               ],
             )));
   }
 
-  InputDecoration decoration(hintMessage) {
+  InputDecoration _textFildDecoration(hintMessage) {
     return InputDecoration(
       filled: true,
       contentPadding: const EdgeInsets.all(15.0),
       hintText: hintMessage,
-      fillColor: const Color.fromARGB(22, 255, 255, 255),
+      fillColor: const Color.fromARGB(50, 0, 0, 0),
       border: const OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(15.0),

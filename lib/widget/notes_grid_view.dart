@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:jnotes/database/note_model.dart';
 import 'package:jnotes/database/notes_database.dart';
 import 'package:jnotes/widget/card.dart';
-import '../screen/notes_editor_screen.dart';
+import 'package:jnotes/widget/notes_empty_view.dart';
+import '../screen/screen_notes_editor.dart';
 
 class NotesGridView extends StatefulWidget {
-  const NotesGridView({Key? key}) : super(key: key);
+  const NotesGridView({super.key});
   static var notesGridKey = GlobalKey<NotesGridViewState>();
 
   @override
@@ -25,16 +26,22 @@ class NotesGridViewState extends State<NotesGridView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: GridView.builder(
-      itemCount: items.length,
-      padding: const EdgeInsets.all(10.0),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 200,
-        childAspectRatio: 1,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      itemBuilder: buildItem,
+        body: IndexedStack(
+      index: items.isEmpty ? 1 : 0,
+      children: [
+        GridView.builder(
+          itemCount: items.length,
+          padding: const EdgeInsets.all(10.0),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            childAspectRatio: 1,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemBuilder: buildItem,
+        ),
+        const NotesEmptyGrid()
+      ],
     ));
   }
 

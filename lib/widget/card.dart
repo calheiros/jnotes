@@ -6,11 +6,10 @@ class NoteCard extends Card {
   final Color cardColor;
 
   const NoteCard(
-      {Key? key,
+      {super.key,
       required this.content,
       required this.title,
-      required this.cardColor})
-      : super(key: key);
+      required this.cardColor});
 
   @override
   Widget build(BuildContext context) {

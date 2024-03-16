@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class MyTheme {
   static const Color primaryColor = Color.fromARGB(255, 0, 204, 255);
   static const Color secondaryColor = Color.fromARGB(255, 118, 50, 226);
-  static const Color backgroundColor = Color.fromARGB(255, 118, 50, 226);
+  //static const Color backgroundColor = Color.fromARGB(255, 118, 50, 226);
+  static const Color backgroundColor = Color.fromARGB(255, 34, 33, 54);
   static const Color surfaceColor = Color.fromARGB(255, 0, 204, 255);
 
   static final ThemeData themeDark = ThemeData(

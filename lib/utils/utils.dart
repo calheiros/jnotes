@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:jnotes/database/note_model.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,7 +11,9 @@ class Utils {
       file = File('${directory.path}/note.txt');
       await file.writeAsString(note.toString());
     } catch (e) {
-      print('Error saving note to file: $e');
+      if (kDebugMode) {
+        print('Error saving note to file: $e');
+      }
     }
     return file;
   }
