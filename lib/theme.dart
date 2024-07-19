@@ -21,8 +21,6 @@ class MyTheme {
           onSecondary: Colors.white,
           error: Colors.red,
           onError: Colors.white,
-          onBackground: Colors.white,
-          background: backgroundColor,
-          surface: secondaryColor,
+          surface: backgroundColor,
           onSurface: Colors.white));
 }

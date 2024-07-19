@@ -3,7 +3,7 @@ import 'package:jnotes/database/note_model.dart';
 import 'package:jnotes/database/notes_database.dart';
 import 'package:jnotes/widget/card.dart';
 import 'package:jnotes/widget/notes_empty_view.dart';
-import '../screen/screen_notes_editor.dart';
+import '../screen/notes_editor.dart';
 
 class NotesGridView extends StatefulWidget {
   const NotesGridView({super.key});

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jnotes/database/note_model.dart';
 import 'package:jnotes/database/notes_database.dart';
@@ -28,18 +30,15 @@ class _NotesEditorState extends State<NotesEditorScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ModalRoute.of(context)?.addScopedWillPopCallback(_willPop);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: true,
-        onPopInvoked: (ps) {
-          if (_textController.text != _note.content ||
-              _titleController.text != _note.title) {
-            _showConfirmationDialog(context);
-            return;
-          }
-          return;
-        },
-        child: Scaffold(
+      child: Scaffold(
             appBar: AppBar(
               actions: <Widget>[
                 IconButton(
@@ -77,6 +76,15 @@ class _NotesEditorState extends State<NotesEditorScreen> {
                 )),
               ],
             )));
+  }
+
+  Future<bool> _willPop() async {
+    if (_textController.text != _note.content ||
+        _titleController.text != _note.title) {
+      _showConfirmationDialog(context);
+      return false;
+    }
+    return true;
   }
 
   InputDecoration _textFildDecoration(hintMessage) {
