@@ -15,7 +15,7 @@ class MyTheme {
       useMaterial3: true,
       colorScheme: const ColorScheme(
           brightness: Brightness.dark,
-          primary: primaryColor,
+          primary: secondaryColor,
           onPrimary: Colors.white,
           secondary: secondaryColor,
           onSecondary: Colors.white,
