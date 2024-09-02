@@ -10,4 +10,4 @@ I created this app as a learning project for myself, however if you're just star
 
 # Screenshots
 
-<img src='https://raw.githubusercontent.com/calheiros/jnotes/main/Screenshots/Captura%20de%20tela%20de%202023-04-11%2017-30-48.png'/><img src='https://raw.githubusercontent.com/calheiros/jnotes/main/Screenshots/Captura%20de%20tela%20de%202023-04-11%2017-32-49.png'/><img src='https://raw.githubusercontent.com/calheiros/jnotes/main/Screenshots/Captura%20de%20tela%20de%202023-04-11%2017-32-15.png'/><img src='https://raw.githubusercontent.com/calheiros/jnotes/main/Screenshots/Captura%20de%20tela%20de%202023-04-11%2017-32-32.png'/>
+<img src='https://raw.githubusercontent.com/calheiros/jnotes/main/screenshots/picture-1.png'/><img src='https://raw.githubusercontent.com/calheiros/jnotes/main/screenshots/picture-2.png'/><img src='https://raw.githubusercontent.com/calheiros/jnotes/main/screenshots/picture-3'/><img src='https://raw.githubusercontent.com/calheiros/jnotes/main/screenshots/picture-4.png'/>
