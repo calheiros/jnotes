@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotesEmptyGrid extends StatelessWidget {
   const NotesEmptyGrid({super.key});
@@ -6,22 +7,22 @@ class NotesEmptyGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const whiteSemiTransparent = Color.fromARGB(120, 255, 255, 255);
-    return const Scaffold(
+    return Scaffold(
         body: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
           Padding(
-              padding: EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 10),
               child: Text(
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: whiteSemiTransparent),
-                "Your notes are empty",
+                    AppLocalizations.of(context).noNotes,
                 textAlign: TextAlign.center,
               )),
-          Icon(
+          const Icon(
             Icons.tips_and_updates,
             size: 100,
             color: whiteSemiTransparent,

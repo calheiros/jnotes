@@ -1,14 +1,18 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:jnotes/database/note_model.dart';
 import 'package:jnotes/database/notes_database.dart';
+import 'package:jnotes/fragment/notes_grid_view.dart';
 import 'package:jnotes/utils/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+// ignore: must_be_immutable
 class NotesEditorScreen extends StatefulWidget {
   final NoteModel note;
-  const NotesEditorScreen(this.note, {super.key});
+  NotesGridViewState gridKey;
+  NotesEditorScreen(this.note, this.gridKey, {super.key});
 
   @override
   State createState() => _NotesEditorState();
@@ -18,7 +22,7 @@ class _NotesEditorState extends State<NotesEditorScreen> {
   late TextEditingController _textController;
   late TextEditingController _titleController;
   late NoteModel _note;
-
+  late AppLocalizations loc;
   final FocusNode _textFocusNode = FocusNode();
 
   @override
@@ -30,15 +34,12 @@ class _NotesEditorState extends State<NotesEditorScreen> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ModalRoute.of(context)?.addScopedWillPopCallback(_willPop);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    loc = AppLocalizations.of(context);
     return PopScope(
-      child: Scaffold(
+        canPop: true,
+        onPopInvoked: (_) => {_onWillPop(context)},
+        child: Scaffold(
             appBar: AppBar(
               actions: <Widget>[
                 IconButton(
@@ -59,7 +60,7 @@ class _NotesEditorState extends State<NotesEditorScreen> {
                     child: TextField(
                         onSubmitted: (_) => _textFocusNode.requestFocus(),
                         controller: _titleController,
-                        decoration: _textFildDecoration("Give a title"))),
+                        decoration: _textFildDecoration(loc.enterTitle))),
                 Expanded(
                     child: Padding(
                   padding:
@@ -72,19 +73,24 @@ class _NotesEditorState extends State<NotesEditorScreen> {
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       minLines: null,
-                      decoration: _textFildDecoration("Start writing here...")),
+                      decoration: _textFildDecoration(loc.startWriting)),
                 )),
               ],
             )));
   }
 
-  Future<bool> _willPop() async {
+  void _onWillPop(context) async {
     if (_textController.text != _note.content ||
         _titleController.text != _note.title) {
-      _showConfirmationDialog(context);
-      return false;
+        var isNewNote = _note.isNew();
+        var result = await _saveNote();
+
+        if (isNewNote) {
+          widget.gridKey.addItem(result);
+        } else {
+          widget.gridKey.updateItem(result);
+        }
     }
-    return true;
   }
 
   InputDecoration _textFildDecoration(hintMessage) {
@@ -105,29 +111,6 @@ class _NotesEditorState extends State<NotesEditorScreen> {
     );
   }
 
-  void _showConfirmationDialog(context) async {
-    NoteModel? newNote;
-    final result = await showDialog<bool>(
-        context: context,
-        builder: (_) {
-          return AlertDialog(
-            title: const Text("Save note?"),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: const Text("No")),
-              TextButton(
-                  onPressed: () async => newNote = await _saveNote(context),
-                  child: const Text("Yes"))
-            ],
-          );
-        });
-
-    if (result == true) {
-      Navigator.of(context).pop(newNote);
-    }
-  }
-
   void _shareNote() async {
     final filePath = await Utils.saveNoteToFile(_note);
     if (filePath != null) {
@@ -135,7 +118,7 @@ class _NotesEditorState extends State<NotesEditorScreen> {
     }
   }
 
-  Future<NoteModel> _saveNote(context) async {
+  Future<NoteModel> _saveNote() async {
     final db = NotesDbProvider();
     final String content = _textController.text;
     final String title = _titleController.text;
@@ -143,10 +126,10 @@ class _NotesEditorState extends State<NotesEditorScreen> {
 
     int result = (newNote.id == -1)
         ? await db.addNote(newNote)
-        : await db.updateNote(newNote, newNote.id);
+        : await db.updateNote(newNote);
+
     if (newNote.id == -1) newNote.id = result;
 
-    Navigator.of(context).pop(true);
     return newNote;
   }
 }

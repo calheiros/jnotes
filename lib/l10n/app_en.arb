@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "appTitle": "My Awesome App",
+  "confirmDeleteNote": "Delete note?",
+  "deleteWarning": "This action cannot be undone.",
+  "enterTitle": "Enter a title",
+  "startWriting": "Start writing here",
+  "pinNote": "Pin",
+  "unpinNote": "Unpin",
+  "delete": "Delete",
+  "yes": "Yes",
+  "no": "No",
+  "notes": "Notes",
+  "noNotes": "Your notes are empty"
+}

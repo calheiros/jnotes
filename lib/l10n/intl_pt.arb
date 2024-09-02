@@ -1,0 +1,15 @@
+{
+  "@@locale": "pt",
+  "appTitle": "Meu Aplicativo Incrível",
+  "confirmDeleteNote": "Excluir nota?",
+  "deleteWarning": "Esta ação não pode ser desfeita.",
+  "enterTitle": "Digite um título",
+  "startWriting": "Comece a escrever aqui",
+  "pinNote": "Fixar",
+  "unpinNote": "Desfixar",
+  "delete": "Excluir",
+  "yes": "Sim",
+  "no": "Não",
+  "notes": "Notas",
+  "noNotes": "Suas notas estão vazias"
+}

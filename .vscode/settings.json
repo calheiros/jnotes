@@ -2,5 +2,6 @@
     "cmake.enabled": false,
     "cmake.configureOnOpen": false,
     "java.jdt.ls.java.home": null,
-    "java.configuration.runtimes": []
+    "java.configuration.runtimes": [],
+    "java.compile.nullAnalysis.mode": "disabled"
 }
